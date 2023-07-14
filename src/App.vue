@@ -1,19 +1,14 @@
 <template>
-  <div :id="$style.app">
-    <h2>{{ text }}</h2>
-    <CustomSelect :items="['name', 'label', 'salary']" />
-    <CustomInput v-model="text" />
-    <ApartmentsList :items="apartments">
-      <template v-slot:apartment="{ apartment }">
-        <ApartmentItem 
-        :key="apartment.id" 
-        :descr="apartment.descr" 
-        :rating="apartment.rating" 
-        :imgSrc="apartment.imgUrl"
-        :price="apartment.price" 
-        @click="handelItemClick" />
-      </template>
-    </ApartmentsList>
+  <div id="app">
+    <Container>
+      <ApartmentFilterForm class="apartment-filter" @submit="logger" />
+      <ApartmentsList :items="apartments">
+        <template v-slot:apartment="{ apartment }">
+          <ApartmentItem :key="apartment.id" :descr="apartment.descr" :rating="apartment.rating"
+            :imgSrc="apartment.imgUrl" :price="apartment.price" />
+        </template>
+      </ApartmentsList>
+    </Container>
   </div>
 </template>
 
@@ -21,16 +16,16 @@
 import ApartmentItem from "./components/apartment/ApartmentItem";
 import ApartmentsList from "./components/apartment/ApartmentsList";
 import apartments from "./components/apartment/apartments";
-import CustomInput from "./components/shared/CustomInput.vue";
-import CustomSelect from "./components/shared/CustomSelect.vue";
+import ApartmentFilterForm from "./components/apartment/ApartmentFilterForm.vue";
+import Container from "./components/shared/Container.vue";
 
 export default {
   name: "App",
   components: {
     ApartmentsList,
     ApartmentItem,
-    CustomInput,
-    CustomSelect,
+    ApartmentFilterForm,
+    Container
   },
   data() {
     return {
@@ -39,14 +34,14 @@ export default {
     };
   },
   methods: {
-    handelItemClick() {
-      console.log("item click");
+    logger(value) {
+      console.log(value);
     },
   },
 };
 </script>
 
-<style module>
+<style lang="scss" scoped>
 #app {
   font-family: Arial, Helvetica, sans-serif, Montserrat;
   -webkit-font-smoothing: antialiased;
@@ -54,5 +49,9 @@ export default {
   text-align: center;
   color: #0f1d2d;
   margin-bottom: 60px;
+}
+
+.apartment-filter {
+  margin-bottom: 40px;
 }
 </style>

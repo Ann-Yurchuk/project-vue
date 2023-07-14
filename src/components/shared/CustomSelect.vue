@@ -1,9 +1,7 @@
 <template>
-    <select v-bind="$attrs" v-on="listeners" class="custom-select">
-        <option v-for="item in formatedItems" 
-        :key="item.value" 
-        :value="item.value">
-        {{ item.label }}</option>
+    <select v-bind="$attrs" class="custom-select">
+        <option v-for="item in formatedItems" :key="item.value" :value="item.value" :selected="item.selected">
+            {{ item.label }}</option>
     </select>
 </template>
 
@@ -20,7 +18,8 @@ export default {
     computed: {
         listeners() {
             return {
-                ...this.$attrs,
+                /* eslint-disable */
+                ...this.$listeners,
                 input: (event) => this.$emit("input", event.target.value),
             };
         },
@@ -35,8 +34,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/variables.scss";
+
 .custom-select {
     min-height: 40px;
+    min-width: 220px;
     border: 2px solid $main-color;
     font-size: 18px;
     outline: none;
